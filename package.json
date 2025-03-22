@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "scripts": {
       "start": "cd backend && python app.py",
-      "heroku-postbuild": "cd skin-cancer-web-app/frontend && npm install && npm run build"
+      "heroku-postbuild": "cd skin-cancer-web-app/frontend && npm install && npx vite build"
     },
     "engines": {
       "node": "19.x",
