@@ -50,10 +50,9 @@ function App() {
       formData.append('use_enhancement', useEnhancement);
       
       // Send request to API
-      const API_URL = process.env.NODE_ENV === 'production' 
-  ? '/api/detect'  // In production, use relative path
+      const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://skin-cancer-detection-web-8f38fc400b28.herokuapp.com/api/detect'  // In production, use full backend URL
   : 'http://localhost:5000/api/detect'; // In development, use localhost
-
 const response = await fetch(API_URL, {
   method: 'POST',
   body: formData,
