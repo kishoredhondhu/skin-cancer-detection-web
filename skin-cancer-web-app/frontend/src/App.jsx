@@ -34,7 +34,6 @@ function App() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted");
     
     if (!file) {
       setError("Please select an image first");
@@ -49,27 +48,29 @@ function App() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('use_enhancement', useEnhancement);
-      console.log("FormData created:", file.name, useEnhancement);
       
       // Send request to API
-      console.log("Sending fetch request to http://localhost:5000/api/detect");
-      const response = await fetch('/api/detect', {
+      const response = await fetch('http://localhost:5000/api/detect', {
         method: 'POST',
         body: formData,
       });
-      console.log("Response received:", response.status, response.ok);
-      
-    
       
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Something went wrong');
+        throw new Error(`Server error: ${response.status} ${response.statusText}`);
       }
       
-      const data = await response.json();
+      // Check if response has content
+      const text = await response.text();
+      if (!text) {
+        throw new Error("Empty response received from server");
+      }
+      
+      // Parse JSON only if we have content
+      const data = JSON.parse(text);
       setResult(data);
     } catch (error) {
-      setError(error.message);
+      console.error("Error details:", error);
+      setError(error.message || "Something went wrong");
     } finally {
       setIsLoading(false);
     }
