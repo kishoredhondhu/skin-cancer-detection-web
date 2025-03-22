@@ -50,10 +50,14 @@ function App() {
       formData.append('use_enhancement', useEnhancement);
       
       // Send request to API
-      const response = await fetch('http://localhost:5000/api/detect', {
-        method: 'POST',
-        body: formData,
-      });
+      const API_URL = process.env.NODE_ENV === 'production' 
+  ? '/api/detect'  // In production, use relative path
+  : 'http://localhost:5000/api/detect'; // In development, use localhost
+
+const response = await fetch(API_URL, {
+  method: 'POST',
+  body: formData,
+});
       
       if (!response.ok) {
         throw new Error(`Server error: ${response.status} ${response.statusText}`);
