@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask import send_from_directory
+import os
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 import numpy as np
@@ -246,6 +248,14 @@ def detect():
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path and os.path.exists(os.path.join('../skin-cancer-web-app/frontend/dist', path)):
+        return send_from_directory('../skin-cancer-web-app/frontend/dist', path)
+    else:
+        return send_from_directory('../skin-cancer-web-app/frontend/dist', 'index.html')
+# At the bottom of app.py, update:
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)

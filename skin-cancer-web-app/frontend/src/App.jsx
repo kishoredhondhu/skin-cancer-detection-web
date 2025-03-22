@@ -53,7 +53,7 @@ function App() {
       
       // Send request to API
       console.log("Sending fetch request to http://localhost:5000/api/detect");
-      const response = await fetch('http://localhost:5000/api/detect', {
+      const response = await fetch('/api/detect', {
         method: 'POST',
         body: formData,
       });
