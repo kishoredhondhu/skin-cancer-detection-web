@@ -1,14 +1,26 @@
 {
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/app.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "skin-cancer-web-app/frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    }
+  ],
   "routes": [
     {
-      "src": "/api/:path*",
-      "dest": "/backend/app.py"
+      "src": "/api/(.*)",
+      "dest": "backend/app.py"
     },
     {
       "handle": "filesystem"
     },
     {
-      "src": "/.*",
+      "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
