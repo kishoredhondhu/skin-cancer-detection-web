@@ -1,0 +1,15 @@
+{
+  "routes": [
+    {
+      "src": "/api/:path*",
+      "dest": "/backend/app.py"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
+    }
+  ]
+}
